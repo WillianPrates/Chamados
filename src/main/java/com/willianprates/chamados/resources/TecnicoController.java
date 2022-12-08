@@ -1,5 +1,10 @@
 package com.willianprates.chamados.resources;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.stream.Collector;
+import java.util.stream.Collectors;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,7 +26,13 @@ public class TecnicoController {
 	@GetMapping(value = "/{id}")
 	public ResponseEntity<TecnicoDTO> findById(@PathVariable Integer id){
 	
-		TecnicoDTO objDTO = new TecnicoDTO(service.findById(id));
-		return ResponseEntity.ok().body(objDTO);
+		TecnicoDTO tecDTO = new TecnicoDTO(service.findById(id));
+		return ResponseEntity.ok().body(tecDTO);
+	}
+	
+	@GetMapping
+	public ResponseEntity<List<TecnicoDTO>> findAll(){
+		List<TecnicoDTO> listDTO = service.findAll().stream().map(tec -> new TecnicoDTO(tec)).collect(Collectors.toList());
+		return ResponseEntity.ok().body(listDTO);
 	}
 }
