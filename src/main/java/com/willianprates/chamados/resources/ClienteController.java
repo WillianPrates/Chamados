@@ -19,35 +19,36 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.willianprates.chamados.dominio.Tecnico;
-import com.willianprates.chamados.dtos.TecnicoDTO;
-import com.willianprates.chamados.services.TecnicoService;
+import com.willianprates.chamados.dominio.Cliente;
+import com.willianprates.chamados.dtos.ClienteDTO;
+import com.willianprates.chamados.services.ClienteService;
 
 @CrossOrigin("*")
 @RestController
-@RequestMapping(value = "/tecnicos")
-public class TecnicoController {
+@RequestMapping(value = "/clientes")
+public class ClienteController {
 
 	@Autowired
-	private TecnicoService service;
+	private ClienteService service;
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<TecnicoDTO> findById(@PathVariable Integer id){
+	public ResponseEntity<ClienteDTO> findById(@PathVariable Integer id){
 	
-		TecnicoDTO tecDTO = new TecnicoDTO(service.findById(id));
+		ClienteDTO tecDTO = new ClienteDTO(service.findById(id));
 		return ResponseEntity.ok().body(tecDTO);
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<TecnicoDTO>> findAll(){
-		List<TecnicoDTO> listDTO = service.findAll().stream().map(tec -> new TecnicoDTO(tec)).collect(Collectors.toList());
+	public ResponseEntity<List<ClienteDTO>> findAll(){
+		List<ClienteDTO> listDTO = service.findAll().stream().map(tec -> new ClienteDTO(tec))
+				.collect(Collectors.toList());
 		return ResponseEntity.ok().body(listDTO);
 	}
 	
 	@PostMapping
-	public ResponseEntity<TecnicoDTO> create(@Valid @RequestBody TecnicoDTO tecDTO){
+	public ResponseEntity<ClienteDTO> create(@Valid @RequestBody ClienteDTO tecDTO){
 		
-		Tecnico newTec = service.create(tecDTO);
+		Cliente newTec = service.create(tecDTO);
 		
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(newTec.getId()).toUri();
 		
@@ -55,8 +56,8 @@ public class TecnicoController {
 	}
 	
 	@PutMapping(value = "/{id}")
-	public ResponseEntity<TecnicoDTO> update(@PathVariable Integer id,@Valid @RequestBody TecnicoDTO tecDTO){
-		TecnicoDTO newTec = new TecnicoDTO(service.update(id, tecDTO));
+	public ResponseEntity<ClienteDTO> update(@PathVariable Integer id,@Valid @RequestBody ClienteDTO tecDTO){
+		ClienteDTO newTec = new ClienteDTO(service.update(id, tecDTO));
 		
 		return ResponseEntity.ok().body(newTec);
 	}

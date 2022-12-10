@@ -27,9 +27,9 @@ public class DBService {
 	private OrdemServicoRepository ordemServicoRepository;
 	
 	public void instanciaDB() {
-		Tecnico t1 = new Tecnico(null, "willian prates", "144.785.300-84", "(51) 99999-5885");
+		Tecnico t1 = new Tecnico(null, "Willian Prates", "144.785.300-84", "(51) 99999-5885");
 		
-		Cliente c1 = new Cliente(null, "Betina Campos", "823.032.270-89", "(51) 99955-5558");
+		Cliente c1 = new Cliente(null, "Sabrina Souza", "823.032.270-89", "(51) 99955-5558");
 		
 		OrdemServico os1 = new OrdemServico(null, Prioridade.ALTA, "Teste Create OS", Status.ABERTO, t1, c1);
 		

@@ -9,41 +9,41 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.willianprates.chamados.dominio.Pessoa;
-import com.willianprates.chamados.dominio.Tecnico;
-import com.willianprates.chamados.dtos.TecnicoDTO;
+import com.willianprates.chamados.dominio.Cliente;
+import com.willianprates.chamados.dtos.ClienteDTO;
 import com.willianprates.chamados.repositories.PessoaRepository;
-import com.willianprates.chamados.repositories.TecnicoRepository;
+import com.willianprates.chamados.repositories.ClienteRepository;
 import com.willianprates.chamados.services.exceptions.DataIntegratyViolationException;
 import com.willianprates.chamados.services.exceptions.ObjectNotFoundException;
 
 @Service
-public class TecnicoService {
+public class ClienteService {
 
 	@Autowired
-	private TecnicoRepository repository;
+	private ClienteRepository repository;
 	
 	@Autowired
 	private PessoaRepository pessoaRepository;
 	
-	public Tecnico findById(Integer id) {
-		Optional<Tecnico> obj = repository.findById(id);
+	public Cliente findById(Integer id) {
+		Optional<Cliente> obj = repository.findById(id);
 		
-		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + " , Tipo " + Tecnico.class.getName()));
+		return obj.orElseThrow(() -> new ObjectNotFoundException("Objeto não encontrado! Id: " + id + " , Tipo " + Cliente.class.getName()));
 	}
 
-	public List<Tecnico> findAll() {
+	public List<Cliente> findAll() {
 		return repository.findAll();
 	}
 	
-	public Tecnico create(TecnicoDTO tecDTO) {
+	public Cliente create(ClienteDTO tecDTO) {
 		if(findByCPF(tecDTO) != null) {
 			throw new DataIntegratyViolationException("CPF já cadastrado!"); 
 		}
-		return repository.save(new Tecnico(null, tecDTO.getNome(), tecDTO.getCpf(), tecDTO.getTelefone()));
+		return repository.save(new Cliente(null, tecDTO.getNome(), tecDTO.getCpf(), tecDTO.getTelefone()));
 	}
 	
-	public Tecnico update(Integer id, @Valid TecnicoDTO tecDTO) {
-		Tecnico oldTec = findById(id);
+	public Cliente update(Integer id, @Valid ClienteDTO tecDTO) {
+		Cliente oldTec = findById(id);
 		
 		if(findByCPF(tecDTO) != null && findByCPF(tecDTO).getId() != id) {
 			throw new DataIntegratyViolationException("CPF já cadastrado!"); 
@@ -56,15 +56,15 @@ public class TecnicoService {
 	}
 	
 	public void delete(Integer id) {
-		Tecnico tec = findById(id);
+		Cliente tec = findById(id);
 		if(tec.getList().size() > 0) {
-			throw new DataIntegratyViolationException("Tecnico possui ordens de serviço, não podendo ser deletado!"); 
+			throw new DataIntegratyViolationException("Cliente possui ordens de serviço, não podendo ser deletado!"); 
 		}
 		repository.deleteById(id);
 	}
 
 	
-	private Pessoa findByCPF(TecnicoDTO tecDTO) {
+	private Pessoa findByCPF(ClienteDTO tecDTO) {
 		Pessoa pess = pessoaRepository.findByCPF(tecDTO.getCpf());
 		if(pess != null) {
 			return pess;
