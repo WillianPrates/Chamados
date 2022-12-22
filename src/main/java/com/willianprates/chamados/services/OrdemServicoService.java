@@ -58,8 +58,8 @@ public class OrdemServicoService {
 		
 		ordemServico.setId(osDTO.getId());
 		ordemServico.setObservacoes(osDTO.getObservacoes());
-		ordemServico.setPrioridade(Prioridade.toEnum(osDTO.getPrioridade()));
-		ordemServico.setStatus(Status.toEnum(osDTO.getStatus()));
+		ordemServico.setPrioridade(osDTO.getPrioridade());
+		ordemServico.setStatus((osDTO.getStatus()));
 		ordemServico.setCliente(cli);
 		ordemServico.setTecnico(tec);
 		
